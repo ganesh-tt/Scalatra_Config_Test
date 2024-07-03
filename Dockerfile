@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Build the Scala SBT project
-RUN sbt compile
+RUN sbt package
 
 # Step 2: Runtime stage
 FROM tomcat:latest
@@ -17,7 +17,7 @@ FROM tomcat:latest
 WORKDIR /app
 
 # Copy the built artifact from the build stage
-COPY --from=build /app/target/scala-2.13/*.war /usr/local/tomcat/webapps/
+COPY --from=build /app/target/scala-2.13/*.war /usr/local/tomcat/webapps/ROOT.war
 
 # Expose the Tomcat port
 EXPOSE 8080
